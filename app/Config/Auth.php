@@ -73,9 +73,10 @@ class Auth extends ShieldAuth
      * If you need more flexibility you can override the `getUrl()` method
      * to apply any logic you may need.
      */
+   
     public array $redirects = [
         'register'          => '/',
-        'login'             => '/',
+        'login'             => '/dashboard',
         'logout'            => 'login',
         'force_reset'       => '/',
         'permission_denied' => '/',
@@ -98,7 +99,7 @@ class Auth extends ShieldAuth
      * @var array<string, class-string<ActionInterface>|null>
      */
     public array $actions = [
-        'register' => null,
+        'register' => \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class,
         'login'    => null,
     ];
 
@@ -437,6 +438,7 @@ class Auth extends ShieldAuth
      */
     public function loginRedirect(): string
     {
+        
         $session = session();
         $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
 
@@ -449,6 +451,7 @@ class Auth extends ShieldAuth
      */
     public function logoutRedirect(): string
     {
+       
         $url = setting('Auth.redirects')['logout'];
 
         return $this->getUrl($url);
