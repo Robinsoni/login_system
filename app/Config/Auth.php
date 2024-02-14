@@ -76,7 +76,7 @@ class Auth extends ShieldAuth
    
     public array $redirects = [
         'register'          => '/',
-        'login'             => '/dashboard',
+        'login'             => '/home',
         'logout'            => 'login',
         'force_reset'       => '/',
         'permission_denied' => '/',
@@ -440,6 +440,7 @@ class Auth extends ShieldAuth
     {
         
         $session = session();
+        
         $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
 
         return $this->getUrl($url);
