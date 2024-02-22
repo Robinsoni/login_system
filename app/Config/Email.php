@@ -28,7 +28,7 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = 'smtp.mailtrap.io';
+    public string $SMTPHost = '';
 
     /**
      * SMTP Username
