@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  cigniter-docker:
+    container_name: cigniter4-docker
+    build: .
+    volumes:
+      - ./:/var/www/html
+      - ./virtual-host.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - 8080:80
+    networks:
+      - my_network
+  
+  mysql_db:
+    image: mysql:latest
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+    - 3306:3306
+    networks:
+      - my_network
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 8081:80
+    restart: always
+    environment:
+      PMA_HOST: db  # Change this line to use "db" instead of "mysql"
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    depends_on:
+      - mysql_db
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge
